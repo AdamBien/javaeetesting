@@ -11,6 +11,8 @@ import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.not;
+import org.hamcrest.CustomMatcher;
+import org.hamcrest.Matcher;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,6 +45,23 @@ public class AssertionsShowTest {
         assertThat(stringList, either(hasItem("java")).or(hasItem("javascript")));
         assertThat(stringList, anyOf(hasItem("javascript"), hasItem("javaee")));
         assertThat(stringList, allOf(hasItem("java"), not(hasItem("erlang"))));
+    }
+
+    @Test
+    public void customMatcher() {
+        Matcher<String> containsJ = new CustomMatcher<String>("contains j") {
+
+            @Override
+            public boolean matches(Object item) {
+                if (!(item instanceof String)) {
+                    return false;
+                }
+                String content = (String) item;
+                return content.contains("j");
+            }
+        };
+
+        assertThat("java", containsJ);
     }
 
 }
