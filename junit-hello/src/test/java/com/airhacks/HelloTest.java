@@ -8,6 +8,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 
 /**
  *
@@ -17,6 +18,9 @@ public class HelloTest {
 
     @Rule
     public SystemOutRule rule = new SystemOutRule();
+
+    @Rule
+    public Timeout timeout = Timeout.seconds(1);
 
     @Before
     public void init() {
@@ -32,7 +36,13 @@ public class HelloTest {
 
     @Test
     public void another() {
+        System.out.println("inside another");
+    }
 
+    @Test(timeout = 2000)
+    public void tooSlow() {
+        while (true) {
+        }
     }
 
     @After
