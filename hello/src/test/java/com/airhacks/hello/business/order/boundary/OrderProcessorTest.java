@@ -20,17 +20,18 @@ public class OrderProcessorTest {
     public void init() {
         this.cut = new OrderProcessor();
         this.cut.paymentProcessor = mock(PaymentProcessor.class);
+        this.cut.authenticator = mock(LegacyAuthenticator.class);
     }
 
     @Test
     public void successfulOrder() {
+        when(this.cut.authenticator.authenticate()).thenReturn(true);
         this.cut.order();
         verify(this.cut.paymentProcessor).pay();
     }
 
     @Test(expected = IllegalStateException.class)
     public void invaliduser() {
-        this.cut.authenticator = mock(LegacyAuthenticator.class);
         when(this.cut.authenticator.authenticate()).thenReturn(false);
         this.cut.order();
     }
