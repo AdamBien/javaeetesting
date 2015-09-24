@@ -2,6 +2,7 @@ package com.airhacks.hello.business.order.boundary;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.json.JsonObject;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
@@ -17,8 +18,9 @@ public class OrdersResource {
     OrderProcessor processor;
 
     @POST
-    public void order() {
-        processor.order();
+    public void order(JsonObject order) {
+        String trackingNumber = order.getString("tracking-number");
+        processor.order(trackingNumber);
     }
 
 }
