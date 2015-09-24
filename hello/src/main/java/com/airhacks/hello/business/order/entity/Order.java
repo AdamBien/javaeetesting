@@ -23,4 +23,8 @@ public class Order {
     public Order() {
     }
 
+    public String getTrackingNumber() {
+        return trackingNumber;
+    }
+
 }
