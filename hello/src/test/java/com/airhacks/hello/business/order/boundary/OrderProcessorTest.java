@@ -43,7 +43,7 @@ public class OrderProcessorTest {
                     return false;
                 }
                 Order order = (Order) item;
-                return !expected.equalsIgnoreCase(order.getTrackingNumber());
+                return expected.equalsIgnoreCase(order.getTrackingNumber());
             }
 
             @Override
