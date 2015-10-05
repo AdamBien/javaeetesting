@@ -1,6 +1,7 @@
 package com.airhacks.mon.reporting.boundary;
 
 import com.airhacks.rulz.jaxrsclient.JAXRSClientProvider;
+import java.util.UUID;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.client.Entity;
@@ -20,7 +21,6 @@ public class SnapshotsResourceIT {
     public JAXRSClientProvider provider = JAXRSClientProvider.buildWithURI("http://localhost:8080/monitoring/resources/snapshots");
 
     @Test
-
     public void crud() {
         final String key = "java";
         final String value = "rocks";
@@ -41,7 +41,17 @@ public class SnapshotsResourceIT {
                 get(JsonObject.class);
         assertNotNull(result);
         assertThat(result.getString(key), is(value));
+    }
 
+    @Test
+    public void findNotExisting() {
+        String key = UUID.randomUUID().toString();
+        Response response = provider.
+                target().
+                path(key).
+                request(MediaType.APPLICATION_JSON).
+                get();
+        assertThat(response.getStatus(), is(204));
     }
 
 }
