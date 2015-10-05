@@ -1,11 +1,13 @@
 package com.airhacks.mon.reporting.boundary;
 
-import static com.airhacks.rulz.jaxrsclient.HttpMatchers.successful;
 import com.airhacks.rulz.jaxrsclient.JAXRSClientProvider;
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import static junit.framework.Assert.assertNotNull;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.Test;
 
@@ -19,12 +21,26 @@ public class SnapshotsResourceIT {
 
     @Test
 
-    public void snapshots() {
-        Response response = this.provider.target().request(MediaType.APPLICATION_JSON).get();
-        assertThat(response, successful());
-        JsonObject result = response.readEntity(JsonObject.class);
+    public void crud() {
+        final String key = "java";
+        final String value = "rocks";
+        JsonObject payload = Json.createObjectBuilder().
+                add(key, value).
+                build();
+
+        Response response = provider.target().
+                request().
+                post(Entity.json(payload));
+        assertThat(response.getStatus(), is(201));
+        String uri = response.getHeaderString("Location");
+        assertNotNull(uri);
+
+        JsonObject result = provider.
+                target(uri).
+                request(MediaType.APPLICATION_JSON).
+                get(JsonObject.class);
         assertNotNull(result);
-        System.out.println("result = " + result);
+        assertThat(result.getString(key), is(value));
 
     }
 
