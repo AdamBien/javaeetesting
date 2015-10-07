@@ -1,7 +1,7 @@
 package com.airhacks;
 
+import java.util.logging.Logger;
 import javax.inject.Inject;
-import static junit.framework.Assert.assertNotNull;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -20,21 +20,20 @@ import org.junit.runner.RunWith;
 public class InjectEmAllIT {
 
     @Inject
-    Boundary boundary;
+    LoggerTestSupport support;
 
     @Deployment
     public static WebArchive create() {
         return ShrinkWrap.create(WebArchive.class).
-                addClasses(Boundary.class).
+                addClasses(LoggerProducer.class, LoggerTestSupport.class, Logger.class).
                 addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
     @Test
-    public void injection() {
-        assertNotNull(boundary);
-        String expected = "perfect day";
-        String greeting = boundary.greeting();
-        assertThat(greeting, is(expected));
+    public void loggerConfiguredProperly() {
+        String expected = support.getClass().getName();
+        String actual = support.getLog().getName();
+        assertThat(actual, is(expected));
     }
 
 }
