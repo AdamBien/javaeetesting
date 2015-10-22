@@ -1,6 +1,7 @@
 package com.airhacks;
 
 import java.util.logging.Logger;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 /**
@@ -10,14 +11,18 @@ import javax.inject.Inject;
 public class Boundary {
 
     @Inject
-    Control control;
+    Instance<Control> control;
 
     @Inject
     Logger LOG;
 
     public String greeting() {
         LOG.info("about to greet");
-        return this.control.message() + " day";
+        String prefix = "perfect";
+        if (!control.isAmbiguous() && !control.isUnsatisfied()) {
+            prefix = this.control.get().message();
+        }
+        return prefix + " day";
     }
 
 }

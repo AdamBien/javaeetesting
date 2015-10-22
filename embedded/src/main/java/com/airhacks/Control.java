@@ -4,10 +4,7 @@ package com.airhacks;
  *
  * @author airhacks.com
  */
-public class Control {
+public interface Control {
 
-    public String message() {
-        return "perfect";
-    }
-
+    String message();
 }
