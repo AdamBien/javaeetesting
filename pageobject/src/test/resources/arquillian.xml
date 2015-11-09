@@ -1,0 +1,13 @@
+<arquillian xmlns="http://jboss.org/schema/arquillian"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://jboss.org/schema/arquillian
+        http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+
+    <extension qualifier="webdriver">
+        <!--<property name="browser">phantomjs</property>-->
+        <property name="browser">chrome</property>
+    </extension>
+    <extension name="graphene">
+        <property name="url">http://localhost:8080/pageobject/</property>
+    </extension>
+</arquillian>
