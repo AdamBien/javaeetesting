@@ -79,6 +79,15 @@
             </plugin>
         </plugins>
         <finalName>hello</finalName>
+        <resources>
+            <resource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <filters>
+            <filter>src/test/filters/env.properties</filter>
+        </filters>
     </build>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
